@@ -1,0 +1,13 @@
+.chat-user {
+  min-height: 30rem;
+}
+
+.user-heading {
+  min-height: 5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.chat-section {
+  height: 25rem;
+  background-color: rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,15 @@
+.right-allignment {
+  flex-direction: row-reverse;
+}
+
+.right-colour {
+  background-color: #78e08f;
+}
+
+.left-colour {
+  background-color: #82ccdd;
+}
+
+.left-allignment {
+  flex-direction: row;
+}

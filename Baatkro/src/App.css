@@ -1,0 +1,58 @@
+.main-heading {
+  height: 10%;
+  margin: 0;
+  font-size: 2.8rem;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.right-side {
+  min-height: 90vh;
+}
+.contacts {
+  min-height: 90%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.row {
+  background: #7f7fd5;
+  background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+}
+
+.zoom-hover {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.zoom-hover:hover {
+  transform: scale(1.2);
+}
+
+input,
+textarea {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.chats {
+  min-height: 90%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.contact {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.contact:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* sd */
+
+.input-container {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.input-container textarea,
+button {
+  height: 2.5rem;
+}
