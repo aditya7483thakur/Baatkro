@@ -11,20 +11,20 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    // children: [
-    //   {
-    //     path: "/",
-    //     element: <ChatPage />,
-    //   },
-    //   {
-    //     path: "/register",
-    //     element: <Register />,
-    //   },
-    //   {
-    //     path: "/login",
-    //     element: <Login />,
-    //   },
-    // ],
+    children: [
+      {
+        path: "/",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/chat",
+        element: <ChatPage />,
+      },
+    ],
   },
 ]);
 

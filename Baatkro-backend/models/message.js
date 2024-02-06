@@ -14,6 +14,10 @@ const schema = new mongoose.Schema({
     required: true,
   },
 
+  senderImage: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -13,9 +13,16 @@ import { server } from "../../App";
 
 let socket;
 
-const ChatMessage = () => {
-  const { user, chatwith, messages, setMessages, setUser } =
-    useContext(ChatProviderContext);
+const ChatSection = () => {
+  const {
+    user,
+    chatwith,
+    messages,
+    senderImage,
+    setMessages,
+    setUser,
+    setIsAuthenticated,
+  } = useContext(ChatProviderContext);
   const [show, setShow] = useState(false);
   const message = useRef();
 
@@ -30,9 +37,12 @@ const ChatMessage = () => {
 
       if (json.success) {
         // toast.success(json.message);
+        setIsAuthenticated(false);
         setUser(null);
       } else {
         // toast.success("Some Error Occured !");
+
+        setIsAuthenticated(true);
       }
     } catch (error) {
       // toast.success("Some Error Occured !");
@@ -40,7 +50,12 @@ const ChatMessage = () => {
   };
 
   const send = () => {
-    socket.emit("message", { data: message.current.value, user, chatwith });
+    socket.emit("message", {
+      data: message.current.value,
+      user,
+      chatwith,
+      senderImage,
+    });
     message.current.value = "";
   };
 
@@ -48,22 +63,38 @@ const ChatMessage = () => {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+    // Initialize socket connection
     socket = io("http://localhost:4000");
     socket.on("connect", () => {
       console.log(`${user} connected : `, socket.id);
       socket.emit("login", { user });
     });
-  }, []);
+
+    // Clean up on component unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, [user]);
 
   useEffect(() => {
-    socket.on("recieve-message", ({ data, chatwith, user }) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { data, receiver: chatwith.name, sender: user, createdAt: Date.now() },
-      ]);
-      console.log(`${user} ${data} ${chatwith.name}`);
-    });
-  }, []);
+    // Set up event listener for receiving messages
+    if (socket) {
+      socket.off("recieve-message"); // Clear existing event listeners
+      socket.on("recieve-message", ({ data, chatwith, user, senderImage }) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            data,
+            receiver: chatwith.name,
+            sender: user,
+            senderImage,
+            createdAt: Date.now(),
+          },
+        ]);
+      });
+      console.log("run");
+    }
+  }, [socket, setMessages]);
 
   if (!chatwith.name) {
     return <div></div>;
@@ -71,7 +102,6 @@ const ChatMessage = () => {
 
   return (
     <>
-      {console.log(messages)}
       <div className="user-heading p-3 rounded">
         <div className="d-flex justify-content-between">
           <div className="d-flex">
@@ -141,17 +171,21 @@ const ChatMessage = () => {
         </div>
       </div>
       <ReactScrollToBottom className="chat-section p-3">
-        {messages.map((item) => {
-          return (
-            <Message
-              key={item.createdAt}
-              message={item.data}
-              sender={item.sender}
-              receiver={item.receiver}
-            />
-          );
-        })}
+        {messages.map(
+          (item) =>
+            ((item.receiver === user && item.sender === chatwith.name) ||
+              (item.receiver === chatwith.name && item.sender === user)) && (
+              <Message
+                key={item.createdAt}
+                message={item.data}
+                sender={item.sender}
+                receiver={item.receiver}
+                senderImage={item.senderImage}
+              />
+            )
+        )}
       </ReactScrollToBottom>
+
       <div className="input-container p-3 rounded d-flex align-items-center">
         <textarea
           type="text"
@@ -172,4 +206,4 @@ const ChatMessage = () => {
   );
 };
 
-export default ChatMessage;
+export default ChatSection;

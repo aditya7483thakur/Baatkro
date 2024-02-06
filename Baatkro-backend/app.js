@@ -52,11 +52,12 @@ app.use("/", messageRouter);
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  socket.on("message", async ({ data, user, chatwith }) => {
+  socket.on("message", async ({ data, user, chatwith, senderImage }) => {
     const newMessage = await Message.create({
       data,
       sender: user,
       receiver: chatwith.name,
+      senderImage,
     });
 
     console.log(connectedUsers[user]);
@@ -64,11 +65,13 @@ io.on("connection", (socket) => {
       data,
       user,
       chatwith,
+      senderImage,
     });
     io.to(connectedUsers[user]).emit("recieve-message", {
       data,
       user,
       chatwith,
+      senderImage,
     });
     console.log(connectedUsers[chatwith.name]);
   });
@@ -76,6 +79,18 @@ io.on("connection", (socket) => {
   socket.on("login", ({ user }) => {
     connectedUsers[user] = socket.id;
     console.log(connectedUsers);
+  });
+
+  socket.on("disconnect", () => {
+    // Find the user associated with the disconnecting socket and remove them
+    const disconnectedUser = Object.keys(connectedUsers).find(
+      (key) => connectedUsers[key] === socket.id
+    );
+    if (disconnectedUser) {
+      console.log(`User disconnected: ${disconnectedUser}`);
+      delete connectedUsers[disconnectedUser];
+      console.log(connectedUsers);
+    }
   });
 });
 

@@ -20,7 +20,6 @@ const Contact = ({ item }) => {
       const json = await response.json();
       if (json.success) {
         setMessages(json.chats);
-        console.log(json.chats);
       } else {
         console.log("some error occured");
       }
@@ -41,19 +40,26 @@ const Contact = ({ item }) => {
   return (
     <div
       onClick={handleChatWith}
-      className=" text-light py-2 contact"
+      className="text-light py-2 contact"
       style={{
         borderBottom: "1px solid rgba(255,255,255,0.5)",
       }}
     >
-      <div className="d-flex">
-        <div style={{ height: "4rem", width: "4rem", overflow: "hidden" }}>
+      <div className="d-flex position-relative">
+        <div
+          style={{
+            height: "4rem",
+            width: "4rem",
+            overflow: "hidden",
+            position: "relative",
+          }}
+        >
           <img
-            src={`${server}/image/${item.imagePath}
-            `}
+            src={`${server}/image/${item.imagePath}`}
             alt=""
             className="img-fluid h-100 rounded-circle w-100 h-100 object-fit-cover"
           />
+          <div className="green-circle"></div>
         </div>
         <h4 className="my-auto ms-3">{item.name}</h4>
       </div>

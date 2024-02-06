@@ -81,7 +81,7 @@ router.get("/get-all-users", isAuthenticated, async (req, res, next) => {
 router.get("/isAuthenticated", isAuthenticated, async (req, res, next) => {
   res.status(200).json({
     success: true,
-    user: req.user.name,
+    user: req.user,
   });
 });
 

@@ -6,7 +6,7 @@ import { ChatProviderContext } from "../../context/ChatProvider";
 const Register = () => {
   const navigate = useNavigate();
 
-  const { setUser } = useContext(ChatProviderContext);
+  const { setUser, isAuthenticated } = useContext(ChatProviderContext);
 
   const nameRef = useRef();
   const emailRef = useRef();
@@ -37,7 +37,7 @@ const Register = () => {
       if (json.success) {
         console.log("success");
         setUser(nameRef.current.value);
-        navigate("/");
+        navigate("/chat");
       } else {
         console.log("not successed");
       }
@@ -46,7 +46,7 @@ const Register = () => {
     }
   };
 
-  if (isAuthenticated) return <Navigate to={"/"} />;
+  if (isAuthenticated) return <Navigate to={"/chat"} />;
   return (
     <div className="main-div">
       <div className="form-box p-2 px-3">
@@ -73,7 +73,7 @@ const Register = () => {
         </form>
         <center className="pt-2 text-dark">
           <h5>
-            Already Registered ? <Link to="/login">Login</Link>
+            Already Registered ? <Link to="/">Login</Link>
           </h5>
         </center>
       </div>

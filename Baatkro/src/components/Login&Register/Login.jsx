@@ -6,7 +6,8 @@ import { server } from "../../App";
 import { ChatProviderContext } from "../../context/ChatProvider";
 
 const Login = () => {
-  const { user, setUser, isAuthenticated } = useContext(ChatProviderContext);
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(ChatProviderContext);
   const navigate = useNavigate();
   const email = useRef();
   const password = useRef();
@@ -28,9 +29,9 @@ const Login = () => {
       const json = await response.json();
 
       if (json.success) {
-        setUser(json.user);
+        setIsAuthenticated(true);
         console.log(json.message);
-        navigate("/");
+        navigate("/chat");
       } else {
         console.log(json.message);
       }
@@ -39,8 +40,7 @@ const Login = () => {
     }
   };
 
-  if (user) return <Navigate to={"/"} />;
-  console.log(user);
+  if (isAuthenticated) return <Navigate to={"/chat"} />;
 
   return (
     <div className="main-div">

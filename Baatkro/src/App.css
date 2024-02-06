@@ -56,3 +56,24 @@ textarea {
 button {
   height: 2.5rem;
 }
+
+.online_icon {
+  position: relative;
+  height: 15px;
+  width: 15px;
+  background-color: #4cd137;
+  border-radius: 50%;
+  bottom: 0.2em;
+  right: 0.4em;
+  border: 1.5px solid white;
+}
+.green-circle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #4cd137;
+  border-radius: 50%;
+  bottom: 0.2em;
+  right: 0em;
+  border: 1.5px solid white;
+}

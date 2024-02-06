@@ -10,6 +10,7 @@ const ChatProvider = ({ children }) => {
   const [chatwith, setChatWith] = useState({});
   const [messages, setMessages] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [senderImage, setSenderImage] = useState("");
 
   return (
     <ChatProviderContext.Provider
@@ -22,6 +23,8 @@ const ChatProvider = ({ children }) => {
         setMessages,
         isAuthenticated,
         setIsAuthenticated,
+        senderImage,
+        setSenderImage,
       }}
     >
       {children}

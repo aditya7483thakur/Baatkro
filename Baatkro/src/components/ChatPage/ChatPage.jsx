@@ -6,8 +6,9 @@ import { ChatProviderContext } from "../../context/ChatProvider";
 import { Navigate } from "react-router-dom";
 
 const ChatPage = () => {
-  const { user } = useContext(ChatProviderContext);
+  const { user, isAuthenticated } = useContext(ChatProviderContext);
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -23,7 +24,6 @@ const ChatPage = () => {
         const json = await response.json();
         if (json.success) {
           setUsers(json.users);
-          console.log(json.users);
         } else {
           console.log("Failed to fetch users");
         }
@@ -35,7 +35,12 @@ const ChatPage = () => {
     fetchAllUsers();
   }, []);
 
-  // if (!user) return <Navigate to={"/login"} />;
+  const filteredUsers = users.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (!isAuthenticated) return <Navigate to={"/"} />;
+  console.log(user);
 
   return (
     <div>
@@ -57,6 +62,9 @@ const ChatPage = () => {
                   <input
                     type="text"
                     className="p-2 w-100 rounded border-0 me-2"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search users..."
                   />
                   <button className="btn btn-success cursor-pointer">
                     <FaSearch
@@ -74,7 +82,7 @@ const ChatPage = () => {
                     maxHeight: "30rem",
                   }}
                 >
-                  {users.map((item) => {
+                  {filteredUsers.map((item) => {
                     return <Contact key={item._id} item={item} />;
                   })}
                 </div>
