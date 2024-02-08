@@ -6,12 +6,9 @@ import { IoVideocam } from "react-icons/io5";
 import Message from "../Message/Message";
 import { Button, Modal } from "react-bootstrap";
 import { CgProfile } from "react-icons/cg";
-import { io } from "socket.io-client";
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import { ChatProviderContext } from "../../context/ChatProvider";
-import { server } from "../../App";
-
-let socket;
+import { server, socket } from "../../App";
 
 const ChatSection = () => {
   const {
@@ -22,6 +19,7 @@ const ChatSection = () => {
     setMessages,
     setUser,
     setIsAuthenticated,
+    userId,
   } = useContext(ChatProviderContext);
   const [show, setShow] = useState(false);
   const message = useRef();
@@ -64,17 +62,26 @@ const ChatSection = () => {
 
   useEffect(() => {
     // Initialize socket connection
-    socket = io("http://localhost:4000");
-    socket.on("connect", () => {
+    const connectSocket = () => {
+      socket.connect();
       console.log(`${user} connected : `, socket.id);
-      socket.emit("login", { user });
-    });
+      socket.emit("login", { user, userId });
+      console.log(user, userId);
+    };
+
+    // Disconnect socket when component unmounts
+    const disconnectSocket = () => {
+      socket.disconnect();
+    };
+
+    // Connect socket when component mounts
+    connectSocket();
 
     // Clean up on component unmount
     return () => {
-      socket.disconnect();
+      disconnectSocket();
     };
-  }, [user]);
+  }, [user, userId]);
 
   useEffect(() => {
     // Set up event listener for receiving messages

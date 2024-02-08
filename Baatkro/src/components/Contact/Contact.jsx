@@ -59,7 +59,7 @@ const Contact = ({ item }) => {
             alt=""
             className="img-fluid h-100 rounded-circle w-100 h-100 object-fit-cover"
           />
-          <div className="green-circle"></div>
+          <div className={item.isOnline ? "green-circle" : "red-circle"}></div>
         </div>
         <h4 className="my-auto ms-3">{item.name}</h4>
       </div>

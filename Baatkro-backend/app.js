@@ -10,6 +10,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import { Message } from "./models/message.js";
+import { User } from "./models/user.js";
 
 const app = express();
 
@@ -76,12 +77,25 @@ io.on("connection", (socket) => {
     console.log(connectedUsers[chatwith.name]);
   });
 
-  socket.on("login", ({ user }) => {
-    connectedUsers[user] = socket.id;
-    console.log(connectedUsers);
+  socket.on("login", async ({ user, userId }) => {
+    if (user) {
+      connectedUsers[user] = socket.id;
+      console.log("userId ", userId);
+      try {
+        // Find the user by userId and update its isOnline attribute to true
+        await User.findByIdAndUpdate(userId, { isOnline: true });
+        // Inside your backend code where user changes occur (e.g., when a new user is added)
+        io.emit("users-changed");
+
+        console.log(`${user} is now online`);
+        console.log(connectedUsers);
+      } catch (error) {
+        console.error("Error updating user status:", error);
+      }
+    }
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
     // Find the user associated with the disconnecting socket and remove them
     const disconnectedUser = Object.keys(connectedUsers).find(
       (key) => connectedUsers[key] === socket.id
@@ -90,6 +104,23 @@ io.on("connection", (socket) => {
       console.log(`User disconnected: ${disconnectedUser}`);
       delete connectedUsers[disconnectedUser];
       console.log(connectedUsers);
+
+      try {
+        // Find the user by name and update their isOnline attribute to false when they disconnect
+        const user = await User.findOne({ name: disconnectedUser });
+        if (user) {
+          user.isOnline = false;
+          await user.save();
+          // Inside your backend code where user changes occur (e.g., when a new user is added)
+          io.emit("users-changed");
+
+          console.log(`${disconnectedUser} is now offline`);
+        } else {
+          console.log(`User ${disconnectedUser} not found`);
+        }
+      } catch (error) {
+        console.error("Error updating user status:", error);
+      }
     }
   });
 });

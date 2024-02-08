@@ -4,6 +4,7 @@ import ChatSection from "../ChatSection/ChatSection";
 import { FaSearch } from "react-icons/fa";
 import { ChatProviderContext } from "../../context/ChatProvider";
 import { Navigate } from "react-router-dom";
+import { socket } from "../../App";
 
 const ChatPage = () => {
   const { user, isAuthenticated } = useContext(ChatProviderContext);
@@ -33,6 +34,14 @@ const ChatPage = () => {
     };
 
     fetchAllUsers();
+
+    // Listen for "users-changed" event to fetch updated users
+    socket.on("users-changed", fetchAllUsers);
+
+    // Clean up event listener on unmount
+    return () => {
+      socket.off("users-changed", fetchAllUsers);
+    };
   }, []);
 
   const filteredUsers = users.filter((item) =>
@@ -40,7 +49,7 @@ const ChatPage = () => {
   );
 
   if (!isAuthenticated) return <Navigate to={"/"} />;
-  console.log(user);
+  // console.log(user);
 
   return (
     <div>

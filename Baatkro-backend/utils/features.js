@@ -12,7 +12,7 @@ export const sendCookie = (user, res, message) => {
       path: "/",
     })
     .json({
-      user: user.name,
+      user: user,
       success: true,
       message,
     });

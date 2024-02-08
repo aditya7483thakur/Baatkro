@@ -77,3 +77,13 @@ button {
   right: 0em;
   border: 1.5px solid white;
 }
+.red-circle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #d7482b;
+  border-radius: 50%;
+  bottom: 0.2em;
+  right: 0em;
+  border: 1.5px solid white;
+}

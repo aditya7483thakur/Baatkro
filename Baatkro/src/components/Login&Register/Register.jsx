@@ -6,7 +6,8 @@ import { ChatProviderContext } from "../../context/ChatProvider";
 const Register = () => {
   const navigate = useNavigate();
 
-  const { setUser, isAuthenticated } = useContext(ChatProviderContext);
+  const { setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(ChatProviderContext);
 
   const nameRef = useRef();
   const emailRef = useRef();
@@ -36,7 +37,8 @@ const Register = () => {
 
       if (json.success) {
         console.log("success");
-        setUser(nameRef.current.value);
+        // setUser(nameRef.current.value);
+        setIsAuthenticated(true);
         navigate("/chat");
       } else {
         console.log("not successed");

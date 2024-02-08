@@ -19,6 +19,10 @@ const schema = new mongoose.Schema({
   imagePath: {
     type: String,
   },
+  isOnline: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const User = mongoose.model("User", schema);
