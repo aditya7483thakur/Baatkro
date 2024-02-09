@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { server } from "../../App";
 import { ChatProviderContext } from "../../context/ChatProvider";
 
 const Contact = ({ item }) => {
   const { user, setChatWith, setMessages } = useContext(ChatProviderContext);
+
   const fetchChat = async () => {
     try {
       const response = await fetch(`${server}/messages`, {
@@ -21,7 +22,30 @@ const Contact = ({ item }) => {
       if (json.success) {
         setMessages(json.chats);
       } else {
-        console.log("some error occured");
+        console.log("Some error occurred");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchGroupChat = async () => {
+    try {
+      const response = await fetch(`${server}/group-messages`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          receiver: "Chat With All", // or the name of the group chat you want to fetch messages for
+        }),
+      });
+      const json = await response.json();
+      if (json.success) {
+        setMessages(json.chats);
+      } else {
+        console.log("Some error occurred");
       }
     } catch (error) {
       console.log(error);
@@ -29,12 +53,16 @@ const Contact = ({ item }) => {
   };
 
   const handleChatWith = () => {
+    if (item.name === "Chat With All") {
+      fetchGroupChat();
+    } else {
+      fetchChat();
+    }
     setChatWith({
       name: item.name,
       image: item.imagePath,
       email: item.email,
     });
-    fetchChat();
   };
 
   return (

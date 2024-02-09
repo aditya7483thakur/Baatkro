@@ -61,20 +61,30 @@ io.on("connection", (socket) => {
       senderImage,
     });
 
-    console.log(connectedUsers[user]);
-    io.to(connectedUsers[chatwith.name]).emit("recieve-message", {
-      data,
-      user,
-      chatwith,
-      senderImage,
-    });
-    io.to(connectedUsers[user]).emit("recieve-message", {
-      data,
-      user,
-      chatwith,
-      senderImage,
-    });
-    console.log(connectedUsers[chatwith.name]);
+    if (chatwith.name === "Chat With All") {
+      io.emit("recieve-message", {
+        data,
+        user,
+        chatwith,
+        senderImage,
+      });
+
+      console.log("emm");
+    } else {
+      console.log(connectedUsers[user]);
+      io.to(connectedUsers[chatwith.name]).emit("recieve-message", {
+        data,
+        user,
+        chatwith,
+        senderImage,
+      });
+      io.to(connectedUsers[user]).emit("recieve-message", {
+        data,
+        user,
+        chatwith,
+        senderImage,
+      });
+    }
   });
 
   socket.on("login", async ({ user, userId }) => {

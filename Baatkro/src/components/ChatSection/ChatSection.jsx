@@ -178,10 +178,16 @@ const ChatSection = () => {
         </div>
       </div>
       <ReactScrollToBottom className="chat-section p-3">
-        {messages.map(
-          (item) =>
-            ((item.receiver === user && item.sender === chatwith.name) ||
-              (item.receiver === chatwith.name && item.sender === user)) && (
+        {messages.map((item) => {
+          // Check if the message is either a one-to-one message or a group message
+          const isOneToOneMessage =
+            (item.receiver === user && item.sender === chatwith.name) ||
+            (item.receiver === chatwith.name && item.sender === user);
+          const isGroupMessage = item.receiver === "Chat With All";
+
+          // Display the message if it's either a one-to-one message or a group message
+          if (isOneToOneMessage || isGroupMessage) {
+            return (
               <Message
                 key={item.createdAt}
                 message={item.data}
@@ -189,8 +195,11 @@ const ChatSection = () => {
                 receiver={item.receiver}
                 senderImage={item.senderImage}
               />
-            )
-        )}
+            );
+          } else {
+            return null; // Ignore other messages
+          }
+        })}
       </ReactScrollToBottom>
 
       <div className="input-container p-3 rounded d-flex align-items-center">

@@ -19,4 +19,19 @@ router.post("/messages", async (req, res) => {
   });
 });
 
+router.post("/group-messages", async (req, res) => {
+  const { receiver } = req.body;
+
+  const chats = await Message.find({
+    receiver: receiver, // The receiver is the group name, e.g., "Chat with All"
+  });
+
+  console.log(chats);
+
+  res.json({
+    success: true,
+    chats,
+  });
+});
+
 export default router;

@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { ChatProviderContext } from "../../context/ChatProvider";
 import { Navigate } from "react-router-dom";
 import { socket } from "../../App";
+import "./ChatPage.css";
 
 const ChatPage = () => {
   const { user, isAuthenticated } = useContext(ChatProviderContext);
@@ -58,7 +59,7 @@ const ChatPage = () => {
           Baat Kro
         </h2>
         <div className="row ">
-          <div className="col-4 ps-4 left-side ">
+          <div className="col-4 ps-4 ">
             <div className="mt-4  rounded contacts">
               <div>
                 <div
@@ -91,6 +92,14 @@ const ChatPage = () => {
                     maxHeight: "30rem",
                   }}
                 >
+                  <Contact
+                    key={"chat-with-all"}
+                    item={{
+                      name: "Chat With All",
+                      imagePath: "/images.jpg",
+                      email: "Everyone",
+                    }}
+                  />
                   {filteredUsers.map((item) => {
                     return <Contact key={item._id} item={item} />;
                   })}
