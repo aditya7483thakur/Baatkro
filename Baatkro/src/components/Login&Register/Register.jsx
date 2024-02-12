@@ -2,6 +2,7 @@ import React, { useContext, useRef } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { server } from "../../App";
 import { ChatProviderContext } from "../../context/ChatProvider";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Register = () => {
     console.log(imageRef.current.files[0]);
 
     try {
+      toast.loading("Signing Up...");
       const response = await fetch(`${server}/user/register`, {
         method: "POST",
         credentials: "include",
@@ -35,16 +37,16 @@ const Register = () => {
       const json = await response.json();
       console.log(json);
 
+      toast.dismiss();
       if (json.success) {
-        console.log("success");
-        // setUser(nameRef.current.value);
+        toast.success(json.message);
         setIsAuthenticated(true);
         navigate("/chat");
       } else {
-        console.log("not successed");
+        toast.error(json.message);
       }
     } catch (error) {
-      console.log("Some error occurred !");
+      toast.error("Some error Occured !");
     }
   };
 

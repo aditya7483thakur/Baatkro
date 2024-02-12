@@ -6,9 +6,10 @@ import { ChatProviderContext } from "../../context/ChatProvider";
 import { Navigate } from "react-router-dom";
 import { socket } from "../../App";
 import "./ChatPage.css";
+import toast from "react-hot-toast";
 
 const ChatPage = () => {
-  const { user, isAuthenticated } = useContext(ChatProviderContext);
+  const { isAuthenticated } = useContext(ChatProviderContext);
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -24,10 +25,11 @@ const ChatPage = () => {
         );
 
         const json = await response.json();
+
         if (json.success) {
           setUsers(json.users);
         } else {
-          console.log("Failed to fetch users");
+          toast.error("Failed to fetch users");
         }
       } catch (error) {
         console.log(error);

@@ -9,6 +9,8 @@ import { CgProfile } from "react-icons/cg";
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import { ChatProviderContext } from "../../context/ChatProvider";
 import { server, socket } from "../../App";
+import toast from "react-hot-toast";
+import { ColorRing } from "react-loader-spinner";
 
 const ChatSection = () => {
   const {
@@ -20,6 +22,7 @@ const ChatSection = () => {
     setUser,
     setIsAuthenticated,
     userId,
+    loading,
   } = useContext(ChatProviderContext);
   const [show, setShow] = useState(false);
   const message = useRef();
@@ -34,16 +37,16 @@ const ChatSection = () => {
       const json = await response.json();
 
       if (json.success) {
-        // toast.success(json.message);
+        toast.success(json.message);
         setIsAuthenticated(false);
         setUser(null);
       } else {
-        // toast.success("Some Error Occured !");
+        toast.success("Some Error Occured !");
 
         setIsAuthenticated(true);
       }
     } catch (error) {
-      // toast.success("Some Error Occured !");
+      toast.success("Some Error Occured !");
     }
   };
 
@@ -102,6 +105,13 @@ const ChatSection = () => {
       console.log("run");
     }
   }, [socket, setMessages]);
+
+  const handleKeyPress = (e) => {
+    // If Enter key is pressed and the message is not empty, send the message
+    if (e.key === "Enter" && message.current.value.trim() !== "") {
+      send();
+    }
+  };
 
   if (!chatwith.name) {
     return <div></div>;
@@ -178,6 +188,11 @@ const ChatSection = () => {
         </div>
       </div>
       <ReactScrollToBottom className="chat-section p-3">
+        {loading && (
+          <div className="loader h-100 w-100 d-flex justify-content-center align-items-center">
+            <ColorRing colors={["#000000"]} />
+          </div>
+        )}
         {messages.map((item) => {
           // Check if the message is either a one-to-one message or a group message
           const isOneToOneMessage =
@@ -203,19 +218,17 @@ const ChatSection = () => {
       </ReactScrollToBottom>
 
       <div className="input-container p-3 rounded d-flex align-items-center">
-        <textarea
+        <input
           type="text"
           ref={message}
           className="w-100 p-2 rounded border-0 me-2"
+          onKeyDown={handleKeyPress} // Detect Enter key press
         />
-        <button className="btn btn-success cursor-pointer" onClick={send}>
-          <IoMdSend
-            style={{
-              fontSize: "1.5rem",
-              paddingBottom: "2px",
-              paddingLeft: "5px",
-            }}
-          />
+        <button
+          className="btn btn-success cursor-pointer"
+          onClick={send} // Send message on button click
+        >
+          <IoMdSend />
         </button>
       </div>
     </>

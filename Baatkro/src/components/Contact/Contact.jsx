@@ -3,10 +3,12 @@ import { server } from "../../App";
 import { ChatProviderContext } from "../../context/ChatProvider";
 
 const Contact = ({ item }) => {
-  const { user, setChatWith, setMessages } = useContext(ChatProviderContext);
+  const { user, setChatWith, setMessages, setLoading } =
+    useContext(ChatProviderContext);
 
   const fetchChat = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`${server}/messages`, {
         method: "POST",
         credentials: "include",
@@ -19,6 +21,8 @@ const Contact = ({ item }) => {
         }),
       });
       const json = await response.json();
+
+      setLoading(false);
       if (json.success) {
         setMessages(json.chats);
       } else {
@@ -31,6 +35,7 @@ const Contact = ({ item }) => {
 
   const fetchGroupChat = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`${server}/group-messages`, {
         method: "POST",
         credentials: "include",
@@ -42,6 +47,8 @@ const Contact = ({ item }) => {
         }),
       });
       const json = await response.json();
+
+      setLoading(false);
       if (json.success) {
         setMessages(json.chats);
       } else {

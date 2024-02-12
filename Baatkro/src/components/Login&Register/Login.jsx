@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { server } from "../../App";
 import { ChatProviderContext } from "../../context/ChatProvider";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
@@ -14,6 +15,7 @@ const Login = () => {
 
   const handlelogin = async () => {
     try {
+      toast.loading("Logging In...");
       const response = await fetch(`${server}/user/login`, {
         method: "POST",
         credentials: "include",
@@ -28,15 +30,16 @@ const Login = () => {
 
       const json = await response.json();
 
+      toast.dismiss();
       if (json.success) {
         setIsAuthenticated(true);
-        console.log(json.message);
+        toast.success(json.message);
         navigate("/chat");
       } else {
-        console.log(json.message);
+        toast.error(json.message);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Some error Occurred !");
     }
   };
 

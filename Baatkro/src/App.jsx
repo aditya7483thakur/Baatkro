@@ -3,6 +3,7 @@ import "./App.css";
 import React, { useContext, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
+import { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
 import { ChatProviderContext } from "./context/ChatProvider";
 
@@ -42,6 +43,7 @@ const App = () => {
   return (
     <>
       <Outlet />
+      <Toaster />
     </>
   );
 };
