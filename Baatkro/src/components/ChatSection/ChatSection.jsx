@@ -114,7 +114,14 @@ const ChatSection = () => {
   };
 
   if (!chatwith.name) {
-    return <div></div>;
+    return (
+      <>
+        <div className="user-heading p-3 rounded"></div>
+        <h1 className="chat-section text-light text-center py-5">
+          Select Someone To Chat
+        </h1>
+      </>
+    );
   }
 
   return (

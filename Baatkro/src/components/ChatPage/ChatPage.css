@@ -13,3 +13,24 @@
   min-height: 90%;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* CSS for ChatPage component */
+
+.modal-toggle-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.custom-modal .modal-content {
+  background: #7f7fd5;
+  background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+  color: white;
+}
+
+@media (max-width: 860px) {
+  .right-side {
+    width: 100% !important;
+  }
+}

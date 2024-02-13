@@ -11,6 +11,13 @@ import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import { Message } from "./models/message.js";
 import { User } from "./models/user.js";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: "dqulk8rno",
+  api_key: "472863493398667",
+  api_secret: "nu5xSkF9ytxv3BDg2TBGLDVXvWg",
+});
 
 const app = express();
 
