@@ -9,7 +9,9 @@ import { ChatProviderContext } from "./context/ChatProvider";
 
 export const server = "https://baatkro-backend.onrender.com";
 
-export const socket = io("http://localhost:4000", { autoConnect: false });
+export const socket = io("https://baatkro-backend.onrender.com", {
+  autoConnect: false,
+});
 const App = () => {
   const {
     setUser,
