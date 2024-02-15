@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { server } from "../../App";
 import { ChatProviderContext } from "../../context/ChatProvider";
+import toast from "react-hot-toast";
 
 const Contact = ({ item }) => {
   const { user, setChatWith, setMessages, setLoading } =
@@ -26,10 +27,10 @@ const Contact = ({ item }) => {
       if (json.success) {
         setMessages(json.chats);
       } else {
-        console.log("Some error occurred");
+        toast.error("Some error occurred");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 
@@ -52,10 +53,10 @@ const Contact = ({ item }) => {
       if (json.success) {
         setMessages(json.chats);
       } else {
-        console.log("Some error occurred");
+        toast.error("Some error occurred");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 
@@ -90,7 +91,7 @@ const Contact = ({ item }) => {
           }}
         >
           <img
-            src={`${server}/image/${item.imagePath}`}
+            src={item.imagePath}
             alt=""
             className="img-fluid h-100 rounded-circle w-100 h-100 object-fit-cover"
           />

@@ -12,14 +12,19 @@ import path, { dirname } from "path";
 import { Message } from "./models/message.js";
 import { User } from "./models/user.js";
 import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: "dqulk8rno",
-  api_key: "472863493398667",
-  api_secret: "nu5xSkF9ytxv3BDg2TBGLDVXvWg",
-});
+import { config } from "dotenv";
 
 const app = express();
+
+config({
+  path: "./data/config.env",
+});
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 mongoDb();
 
@@ -58,8 +63,6 @@ app.use("/user", userRouter);
 app.use("/", messageRouter);
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
-
   socket.on("message", async ({ data, user, chatwith, senderImage }) => {
     const newMessage = await Message.create({
       data,
@@ -75,10 +78,7 @@ io.on("connection", (socket) => {
         chatwith,
         senderImage,
       });
-
-      console.log("emm");
     } else {
-      console.log(connectedUsers[user]);
       io.to(connectedUsers[chatwith.name]).emit("recieve-message", {
         data,
         user,
@@ -97,15 +97,11 @@ io.on("connection", (socket) => {
   socket.on("login", async ({ user, userId }) => {
     if (user) {
       connectedUsers[user] = socket.id;
-      console.log("userId ", userId);
       try {
         // Find the user by userId and update its isOnline attribute to true
         await User.findByIdAndUpdate(userId, { isOnline: true });
         // Inside your backend code where user changes occur (e.g., when a new user is added)
         io.emit("users-changed");
-
-        console.log(`${user} is now online`);
-        console.log(connectedUsers);
       } catch (error) {
         console.error("Error updating user status:", error);
       }
@@ -118,9 +114,7 @@ io.on("connection", (socket) => {
       (key) => connectedUsers[key] === socket.id
     );
     if (disconnectedUser) {
-      console.log(`User disconnected: ${disconnectedUser}`);
       delete connectedUsers[disconnectedUser];
-      console.log(connectedUsers);
 
       try {
         // Find the user by name and update their isOnline attribute to false when they disconnect
@@ -130,10 +124,6 @@ io.on("connection", (socket) => {
           await user.save();
           // Inside your backend code where user changes occur (e.g., when a new user is added)
           io.emit("users-changed");
-
-          console.log(`${disconnectedUser} is now offline`);
-        } else {
-          console.log(`User ${disconnectedUser} not found`);
         }
       } catch (error) {
         console.error("Error updating user status:", error);
@@ -144,6 +134,6 @@ io.on("connection", (socket) => {
 
 app.use(ErrorMiddleware);
 
-server.listen(4000, (req, res) => {
+server.listen(process.env.PORT, (req, res) => {
   console.log("Server is listening...");
 });

@@ -9,7 +9,7 @@ export const isAuthenticated = async (req, res, next) => {
       message: "Login first",
     });
   }
-  const decoded = jwt.verify(token, "iweriouskjferio");
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   req.user = await User.findById({ _id: decoded._id });
   next();
 };

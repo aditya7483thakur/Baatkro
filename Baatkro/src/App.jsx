@@ -26,7 +26,6 @@ const App = () => {
       });
 
       const json = await response.json();
-      console.log(json);
 
       if (json.success) {
         setUser(json.user.name);

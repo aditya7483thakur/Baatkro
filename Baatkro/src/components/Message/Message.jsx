@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import "./Message.css";
 import { ChatProviderContext } from "../../context/ChatProvider";
-import { server } from "../../App";
 
 const Message = ({ sender, message, senderImage }) => {
   let direction = "";
-  const { user, chatwith } = useContext(ChatProviderContext);
-  // console.log(`Chatwith.name: ${chatwith.name},receiver : ${receiver}`);
+  const { user } = useContext(ChatProviderContext);
   if (sender === user) {
     direction = "right";
   } else {
@@ -18,7 +16,7 @@ const Message = ({ sender, message, senderImage }) => {
       <div className={`d-flex mb-3 ${direction}-allignment `}>
         <div style={{ height: "3rem", width: "3rem" }} className="mx-2">
           <img
-            src={`${server}/image/${senderImage}`}
+            src={senderImage}
             alt=""
             className="img-fluid h-100 rounded-circle w-100 object-fit-cover"
           />

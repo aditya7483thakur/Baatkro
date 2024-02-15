@@ -23,8 +23,6 @@ const Register = () => {
     formData.append("password", passwordRef.current.value);
     formData.append("image", imageRef.current.files[0]);
 
-    console.log(imageRef.current.files[0]);
-
     try {
       toast.loading("Signing Up...");
       const response = await fetch(`${server}/user/register`, {
@@ -35,7 +33,6 @@ const Register = () => {
       });
 
       const json = await response.json();
-      console.log(json);
 
       toast.dismiss();
       if (json.success) {

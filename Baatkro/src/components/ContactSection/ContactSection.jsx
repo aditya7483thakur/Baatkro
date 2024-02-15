@@ -37,7 +37,8 @@ const ContactSection = ({ users, searchTerm, setSearchTerm }) => {
             key={"chat-with-all"}
             item={{
               name: "Chat With All",
-              imagePath: "/images.jpg",
+              imagePath:
+                "https://res.cloudinary.com/dqulk8rno/image/upload/v1707974875/image-1707974869843.jpg",
               email: "Everyone",
             }}
           />

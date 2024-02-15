@@ -67,9 +67,7 @@ const ChatSection = () => {
     // Initialize socket connection
     const connectSocket = () => {
       socket.connect();
-      console.log(`${user} connected : `, socket.id);
       socket.emit("login", { user, userId });
-      console.log(user, userId);
     };
 
     // Disconnect socket when component unmounts
@@ -102,7 +100,6 @@ const ChatSection = () => {
           },
         ]);
       });
-      console.log("run");
     }
   }, [socket, setMessages]);
 
@@ -131,7 +128,7 @@ const ChatSection = () => {
           <div className="d-flex">
             <div style={{ height: "4rem", width: "4rem" }}>
               <img
-                src={`${server}/image/${chatwith.image}`}
+                src={chatwith.image}
                 alt=""
                 className="img-fluid h-100 rounded-circle  w-100 object-fit-cover"
               />

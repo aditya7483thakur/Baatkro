@@ -5,6 +5,7 @@ import { sendCookie } from "../utils/features.js";
 import multer from "multer";
 import path from "path";
 import { isAuthenticated } from "../utils/auth.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const router = express.Router();
 
@@ -38,14 +39,34 @@ router.post("/register", upload.single("image"), async (req, res, next) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+  let imagePath = null;
+
+  if (req.file) {
+    imagePath = req.file.path;
+    const options = {
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+    };
+
+    try {
+      const result = await cloudinary.uploader.upload(imagePath, options);
+      imagePath = result.secure_url; // Save Cloudinary URL
+    } catch (error) {
+      console.error(error);
+      return next(error);
+    }
+  }
+
   user = await User.create({
     name,
     email,
     password: hashedPassword,
-    imagePath: req.file ? req.file.filename : null,
+    imagePath,
   });
 
   sendCookie(user, res, "Registered Successfully");
+  // next();
 });
 
 router.post("/login", async (req, res, next) => {

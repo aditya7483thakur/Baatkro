@@ -12,7 +12,6 @@ router.post("/messages", async (req, res) => {
       { sender: receiver, receiver: sender }, // vice-versa
     ],
   });
-  console.log(`${sender}  ${receiver}`);
   res.json({
     success: true,
     chats,
@@ -25,8 +24,6 @@ router.post("/group-messages", async (req, res) => {
   const chats = await Message.find({
     receiver: receiver, // The receiver is the group name, e.g., "Chat with All"
   });
-
-  console.log(chats);
 
   res.json({
     success: true,

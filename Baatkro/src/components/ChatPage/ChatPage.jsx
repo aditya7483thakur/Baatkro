@@ -46,7 +46,7 @@ const ChatPage = () => {
           toast.error("Failed to fetch users");
         }
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
