@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
 import { ChatProviderContext } from "./context/ChatProvider";
 
-export const server = "http://localhost:4000";
+export const server = "https://baatkro-backend.onrender.com";
 
 export const socket = io("http://localhost:4000", { autoConnect: false });
 const App = () => {
