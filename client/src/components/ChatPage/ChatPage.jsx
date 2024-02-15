@@ -4,7 +4,7 @@ import ChatSection from "../ChatSection/ChatSection";
 import { FaSearch } from "react-icons/fa";
 import { ChatProviderContext } from "../../context/ChatProvider";
 import { Navigate } from "react-router-dom";
-import { socket } from "../../App";
+import { server, socket } from "../../App";
 import "./ChatPage.css";
 import toast from "react-hot-toast";
 import { Button, Modal } from "react-bootstrap";
@@ -30,13 +30,10 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchAllUsers = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:4000/user/get-all-users",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
+        const response = await fetch(`${server}/user/get-all-users`, {
+          method: "GET",
+          credentials: "include",
+        });
 
         const json = await response.json();
 
