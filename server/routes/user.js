@@ -9,6 +9,9 @@ import { v2 as cloudinary } from "cloudinary";
 
 const router = express.Router();
 
+const DEFAULT_IMAGE_URL =
+  "https://res.cloudinary.com/dqulk8rno/image/upload/v1708019757/image-1708019756338.png";
+
 //multer's function diskStorage used to store the images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -39,7 +42,7 @@ router.post("/register", upload.single("image"), async (req, res, next) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  let imagePath = null;
+  let imagePath = DEFAULT_IMAGE_URL;
 
   if (req.file) {
     imagePath = req.file.path;
