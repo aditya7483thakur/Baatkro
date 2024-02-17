@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import Contact from "../Contact/Contact";
 import ChatSection from "../ChatSection/ChatSection";
-import { FaSearch } from "react-icons/fa";
 import { ChatProviderContext } from "../../context/ChatProvider";
 import { Navigate } from "react-router-dom";
 import { server, socket } from "../../App";
 import "./ChatPage.css";
 import toast from "react-hot-toast";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import ContactSection from "../ContactSection/ContactSection";
 
 const ChatPage = () => {

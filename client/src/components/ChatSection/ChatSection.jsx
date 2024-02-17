@@ -176,7 +176,7 @@ const ChatSection = () => {
               </h1>{" "}
               <div style={{ height: "6rem", width: "6rem" }} className="mx-2">
                 <img
-                  src={`${server}/image/${chatwith.image}`}
+                  src={chatwith.image}
                   alt=""
                   className="img-fluid h-100 rounded-circle w-100 object-fit-cover"
                 />

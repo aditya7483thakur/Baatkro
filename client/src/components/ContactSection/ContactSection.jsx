@@ -1,4 +1,3 @@
-// ContactsSection.js
 import React from "react";
 import Contact from "../Contact/Contact";
 import { FaSearch } from "react-icons/fa";
