@@ -9,12 +9,19 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import { config } from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
 import handleSocketConnection from "./socket.js";
 
 const app = express();
 
 config({
   path: "./data/config.env",
+});
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 mongoDb();
