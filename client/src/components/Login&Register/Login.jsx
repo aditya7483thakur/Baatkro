@@ -46,31 +46,47 @@ const Login = () => {
   if (isAuthenticated) return <Navigate to={"/chat"} />;
 
   return (
-    <div className="main-div">
-      <div className="form-box px-3">
-        <div className="header-text my-4">Login Form</div>
-        <input
-          className="my-4"
-          placeholder="Your Email Address"
-          type="email"
-          ref={email}
-        />
-        <input
-          className="my-4"
-          placeholder="Your Password"
-          type="password"
-          ref={password}
-        />{" "}
-        <Link onClick={handlelogin}>
-          <button className="p-2 my-2">login</button>
-        </Link>
-        <center className="pt-3 text-dark">
-          <h5>
-            Create Account ? <Link to="/register">Register</Link>
-          </h5>
-        </center>
+    <>
+      <div className="main-div">
+        <div
+          className="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <strong>Hey User !</strong> Backend part of this website is deployed
+          on a free server , so it might take 10-15 seconds to register or
+          login.
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="form-box px-3">
+          <div className="header-text my-4">Login Form</div>
+          <input
+            className="my-4"
+            placeholder="Your Email Address"
+            type="email"
+            ref={email}
+          />
+          <input
+            className="my-4"
+            placeholder="Your Password"
+            type="password"
+            ref={password}
+          />{" "}
+          <Link onClick={handlelogin}>
+            <button className="p-2 my-2">login</button>
+          </Link>
+          <center className="pt-3 text-dark">
+            <h5>
+              Create Account ? <Link to="/register">Register</Link>
+            </h5>
+          </center>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

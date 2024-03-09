@@ -50,6 +50,19 @@ const Register = () => {
   if (isAuthenticated) return <Navigate to={"/chat"} />;
   return (
     <div className="main-div">
+      <div
+        className="alert alert-warning alert-dismissible fade show"
+        role="alert"
+      >
+        <strong>Hey User !</strong> Backend part of this website is deployed on
+        a free server , so it might take 10-15 seconds to register or login.
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
       <div className="form-box p-2 px-3">
         <div className="header-text">Registeration Form</div>
         <form encType="multipart/form-data" onSubmit={handleRegister}>
