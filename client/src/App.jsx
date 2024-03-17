@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
 import { ChatProviderContext } from "./context/ChatProvider";
+import Navbar from "./components/Navbar/Navbar";
 
 export const server = "https://baatkro-backend.onrender.com";
 

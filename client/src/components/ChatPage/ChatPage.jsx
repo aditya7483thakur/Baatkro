@@ -62,10 +62,10 @@ const ChatPage = () => {
     setShowModal(!showModal);
   };
 
-  if (!isAuthenticated) return <Navigate to={"/"} />;
+  if (!isAuthenticated) return <Navigate to={"/login"} />;
 
   return (
-    <div>
+    <div className="overflow-hidden vh-100">
       <h2 className="main-heading bg-dark text-white text-center py-2">
         Baat Kro
         {isSmallScreen && (

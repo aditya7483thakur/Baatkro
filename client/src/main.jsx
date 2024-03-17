@@ -6,6 +6,8 @@ import Register from "./components/Login&Register/Register.jsx";
 import Login from "./components/Login&Register/Login.jsx";
 import ChatPage from "./components/ChatPage/ChatPage.jsx";
 import ChatProvider from "./context/ChatProvider.jsx";
+import Home from "./components/Home/Home.jsx";
+import About from "./components/About/About.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +15,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/",
+        path: "/login",
         element: <Login />,
       },
       {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "/chat",
         element: <ChatPage />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/",
+        element: <Home />,
       },
     ],
   },
